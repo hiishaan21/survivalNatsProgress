@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Sets the title of the web page, shown on the browser tab -->
+    <title>Survival Challenge</title>
+    <!-- Google Fonts for modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Navigation bar -->
+    <div id="navbar">
+        <div id="navbar-left">
+            <h2 id="navbar-title" data-i18n="theTittle">Island Survival</h2>
+            <button id="readAloud-button" title="Read Aloud" aria-label="Read Aloud" style="
+        font-size: 18px;
+        background-color: #fff2de;  /* subtle light gray */
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        padding: 6px 10px;
+        margin-left: 15px;  /* push right */
+        line-height: 1;
+        color: #fff2de;
+        transition: background-color 0.3s ease;
+      " onmouseover="this.style.backgroundColor='#fff2de'" onmouseout="this.style.backgroundColor='#fff2de'">
+                🔊
+            </button>
+        </div>
+        <div id="navbar-right">
+            <div id="font-size-controls">
+                <button id="font-increase" aria-label="Increase font size">A+</button>
+                <button id="font-decrease" aria-label="Decrease font size">A-</button>
+            </div>
+            <div class="language-inline">
+                <label for="language-select" class="dropdown-label">🌐 Language:</label>
+                <select id="language-select" class="dropdown-select">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="zh">中文</option>
+                </select>
+            </div>
+            <!-- Audio toggle -->
+            <div class="toggle-container">
+                <span class="toggle-label" data-i18n="audioToggle">Audio</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="audio-toggle" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <!-- Dark mode toggle -->
+            <div class="toggle-container">
+                <span class="toggle-label" data-i18n="darkToggle">Dark Mode</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="dark-mode-toggle">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress indicator -->
+    <div id="progress-indicator"></div>
+
+    <!-- Energy display component -->
+    <div id="energy-display" style="display: none;">
+        <img id="energy-icon" src="images/energy.jpeg" alt="Energy">
+        <span id="energy-value">50</span>
+    </div>
+
+    <!-- Floating control buttons -->
+    <div class="floating-controls">
+        <button id="help-button" class="floating-control" style="display: none;" title="Help">
+            <img src="images/question.jpeg" alt="Help">
+        </button>
+        <button id="restart-button" class="floating-control" style="display: none;" title="Restart">
+            <img src="images/stop.jpeg" alt="Restart">
+        </button>
+        <button id="voice-button" class="floating-control" style="display: none;" title="Voice Control">
+            <img src="images/mic.webp" alt="Voice Control">
+        </button>
+        <button id="export-button" class="floating-control" style="display: none;" title="Export Data">
+            <img src="images/exportfinal.webp" alt="Export">
+        </button>
+    </div>
+
+    <!-- Main container for the story content -->
+    <div id="story-container">
+        <h1 id="story-title" data-i18n="storyTitle">Stranded: Island Survival</h1>
+
+        <p id="story-text" data-i18n="storyText">
+            Welcome to this amazing interactive app which tests your survival skills. You and some friends are stranded
+            on an island due to a volcanic eruption which caused your plane to crash. You must do whatever it takes to
+            survive!
+        </p>
+
+        <ul id="feature-list" class="feature-list-horizontal">
+            <li data-i18n="feature1">🌴 Explore Mysterious Locations</li>
+            <li data-i18n="feature2">🧭 Make Choices That Decide Your Fate</li>
+        </ul>
+
+        <!-- Reduced-size image -->
+        <img id="survival-image" src="images/titleimage.webp" alt="You Must Survive">
+
+        <!-- Warning text -->
+        <p id="beware" data-i18n="Beware">Enter at your own risk. Good Luck!</p>
+
+
+        <!-- Credits -->
+        <p id="credentials" data-i18n="Credentials">
+            Created By: Ishaan Agarwal, Mikail Ahmed, and Aryaman Rao
+        </p>
+
+        <!-- Navigation button -->
+        <div id="choices">
+            <button id="button1" onclick="choose('instruct')" data-i18n="Button1">
+                Instructions
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Toast notification -->
+    <div id="notification-toast" class="toast"></div>
+
+    <!-- Game messages containers -->
+    <div id="shelter-message" class="game-message" style="display: none;" data-i18n="shelterMessage">Great Choice. This
+        shelter will be the key to your success in the future</div>
+    <div id="success-message" class="game-message success-message" style="display: none;" data-i18n="successMessage">You
+        have escaped the island! Good luck on your journey ahead!</div>
+    <div id="failure-message" class="game-message failure-message" style="display: none;" data-i18n="failureMessage">You
+        have failed to escape the island. Tough Luck</div>
+
+    <!-- Location images and buttons that will be added dynamically -->
+    <div id="location-images" class="location-container" style="display: none;">
+        <div class="location" id="skull-rock-location">
+            <img id="skull-rock-image" src="images/skullrock.jpeg" alt="Skull Rock">
+            <button id="skull-rock-button" data-i18n="exploration.button.skull">Skull Rock</button>
+        </div>
+        <div class="location" id="ghost-cave-location">
+            <img id="ghost-light-cave-image" src="images/ghostlightcave.jpeg" alt="Ghost Cave">
+            <button id="cave-button" data-i18n="exploration.button.cave">Ghost Cave</button>
+        </div>
+        <div class="location" id="forgotten-falls-location">
+            <img id="forgotten-falls-image" src="images/forgottenfalls.jpeg" alt="Forgotten Falls">
+            <button id="falls-button" data-i18n="exploration.button.falls">Forgotten Falls</button>
+        </div>
+    </div>
+
+    <script src="libs/xlsx.full.min.js"></script>
+    <script src="script.js" defer></script>
+</body>
+
+</html>
